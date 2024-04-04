@@ -3,7 +3,7 @@ import sqlite3
 from .singleton_meta import SingletonMeta
 
 
-class DB(metaclass=SingletonMeta):
+class Connection(metaclass=SingletonMeta):
     def __init__(self, db_name=None):
         self.db_name = db_name
         self.connection = None

@@ -1,8 +1,8 @@
-from db import DB
+from db import Connection
 
 
 def main():
-    db = DB('data/Cereal.db')
+    db = Connection('data/db/Cereal.db')
     db.connect()
     print(db.is_connected())
     db.disconnect()

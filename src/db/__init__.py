@@ -1,5 +1,5 @@
 # db/__init__.py
 
-from .db import DB
+from .connection import Connection
 
-__all__ = ['DB']
+__all__ = ['Connection']
