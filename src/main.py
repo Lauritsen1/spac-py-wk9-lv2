@@ -8,9 +8,16 @@ connection = Connection("data/db/Cereal.db")
 
 
 @app.route('/cereal', methods=['GET'])
-def get_cereal():
+def get():
     cur = connection.cursor()
     data = cur.execute('SELECT * FROM cereals').fetchall()
+    return jsonify(data)
+
+
+@app.route('/cereal/<int:id>', methods=['GET'])
+def get_all(id):
+    cur = connection.cursor()
+    data = cur.execute(f'SELECT * FROM cereals WHERE id = {id}').fetchall()
     return jsonify(data)
 
 
