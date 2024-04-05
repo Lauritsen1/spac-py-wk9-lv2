@@ -8,7 +8,7 @@ connection = Connection("data/db/Cereal.db")
 
 
 @app.route('/cereal', methods=['GET'])
-def get():
+def get_all():
     cur = connection.cursor()
     url_params = list(request.args.items())
     query = "SELECT * FROM cereals WHERE "
@@ -22,10 +22,18 @@ def get():
 
 
 @app.route('/cereal/<int:id>', methods=['GET'])
-def get_all(id):
+def get(id):
     cur = connection.cursor()
     data = cur.execute(f'SELECT * FROM cereals WHERE id = {id}').fetchall()
     return jsonify(data)
+
+
+@app.route('/cereal/delete/<int:id>', methods=['DELETE'])
+def delete(id):
+    cur = connection.cursor()
+    data = cur.execute(f'DELETE FROM cereals WHERE id = ?', (id,)).fetchall()
+    connection.connection.commit()
+    return jsonify(data), 204
 
 
 if __name__ == '__main__':
