@@ -10,7 +10,14 @@ connection = Connection("data/db/Cereal.db")
 @app.route('/cereal', methods=['GET'])
 def get():
     cur = connection.cursor()
-    data = cur.execute('SELECT * FROM cereals').fetchall()
+    url_params = list(request.args.items())
+    query = "SELECT * FROM cereals WHERE "
+    params = []
+    for k, v in url_params:
+        query += f"{k} = ? AND "
+        params.append(v)
+    query = query[:-5]
+    data = cur.execute(query, params).fetchall()
     return jsonify(data)
 
 
