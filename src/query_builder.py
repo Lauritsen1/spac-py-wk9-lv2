@@ -33,3 +33,4 @@ class QueryBuilder:
 db = QueryBuilder()
 
 data = db.SELECT().FROM('cereals').WHERE(id=2).execute()
+print(data)
