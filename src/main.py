@@ -1,3 +1,5 @@
+import uuid
+
 from flask import Flask, jsonify, request
 
 from db import Connection
@@ -26,6 +28,34 @@ def get(id):
     cur = connection.cursor()
     data = cur.execute(f'SELECT * FROM cereals WHERE id = {id}').fetchall()
     return jsonify(data)
+
+
+@app.route('/cereal', methods=['POST'])
+def create():
+    cur = connection.cursor()
+    query = f'INSERT INTO cereals (id, name, mfr, type, calories, protein, fat, sodium, fiber, carbo, sugars, potass, vitamins, shelf, weight, cups, rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    params = (
+        str(uuid.uuid4()),
+        request.args.get('name'),
+        request.args.get('mfr'),
+        request.args.get('type'),
+        request.args.get('calories'),
+        request.args.get('protein'),
+        request.args.get('fat'),
+        request.args.get('sodium'),
+        request.args.get('fiber'),
+        request.args.get('carbo'),
+        request.args.get('sugars'),
+        request.args.get('potass'),
+        request.args.get('vitamins'),
+        request.args.get('shelf'),
+        request.args.get('weight'),
+        request.args.get('cups'),
+        request.args.get('rating'),
+    )
+    cur.execute(query, params)
+    connection.connection.commit()
+    return '', 201
 
 
 @app.route('/cereal/delete/<int:id>', methods=['DELETE'])
